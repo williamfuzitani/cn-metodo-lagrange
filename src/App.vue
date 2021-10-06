@@ -1,12 +1,71 @@
 <script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { ref, watch } from "vue";
+import { interpola } from "./scripts/lagrange";
+
+let x = ref(0);
+let resultado = ref(0);
+let tamanho = ref(3);
+let funcao = ref([
+  { x: -2, y: 2 },
+  { x: 0, y: -2 },
+  { x: 4, y: 1 },
+]);
+
+watch(tamanho, (tamanho, prevTamanho) => {
+  const newFuncao = Array.from({ length: tamanho }).map((_, i) => ({
+    x: 0,
+    y: 0,
+  }));
+  funcao.value = newFuncao;
+});
+
+function calcular() {
+  resultado.value = interpola(funcao.value, x.value);
+}
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <h1>Projeto - Forma de Lagrange</h1>
+
+  <div class="input-field">
+    <label for="pontos">Número de Pontos:</label>
+    <input v-model.number="tamanho" type="text" />
+  </div>
+
+  <div class="input-field">
+    <label for="x">Valor de x onde se vai interpolar:</label>
+    <input v-model.number="x" type="text" />
+  </div>
+
+  <div class="input-field">
+    <button @click="calcular">Calcular</button>
+  </div>
+
+  <div class="section">
+    <table>
+      <tr>
+        <th>Funcao</th>
+        <td v-for="(col, icol) in tamanho" :key="icol">
+          {{ icol }}
+        </td>
+      </tr>
+      <tr>
+        <td>X</td>
+        <td v-for="(col, icol) in tamanho" :key="icol">
+          <input v-model.number="funcao[icol].x" type="text" />
+        </td>
+      </tr>
+      <tr>
+        <td>Y</td>
+        <td v-for="(col, icol) in tamanho" :key="icol">
+          <input v-model.number="funcao[icol].y" type="text" />
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <h2>Resultado</h2>
+  <span>{{ resultado }}</span>
 </template>
 
 <style>
