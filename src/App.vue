@@ -18,4 +18,19 @@ import HelloWorld from './components/HelloWorld.vue'
   color: #2c3e50;
   margin-top: 60px;
 }
+
+table {
+  padding: 1rem;
+  border: 0.15em solid grey;
+  border-radius: 0.5rem;
+}
+
+.input-field {
+  margin-bottom: 1rem;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+}
 </style>
